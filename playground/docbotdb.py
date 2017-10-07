@@ -33,3 +33,7 @@ class DBHelper:
         stmt = "SELECT description, owner FROM items WHERE hourTake = (?) AND minTake = (?)"
         args = (hourTake, minTake, )
         return [x[0] for x in self.conn.execute(stmt, args)]
+    def get_all(self, ):
+        stmt = "SELECT description, owner FROM items"
+        args = ( )
+        return [x[0] for x in self.conn.execute(stmt, args)]
