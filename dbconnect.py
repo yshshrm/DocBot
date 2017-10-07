@@ -4,8 +4,10 @@ import time
 # import urllib
 import datetime
 
-print(datetime.datetime.time(datetime.datetime.now()))
-from dbhelper import DBHelper
+now = datetime.datetime.now()
+print now.hour
+
+from dbhelper2 import DBHelper
 
 db = DBHelper()
 
@@ -45,22 +47,6 @@ def get_last_update_id(updates):
         update_ids.append(int(update["update_id"]))
     return max(update_ids)
 
-# def handle_updates(updates):
-#     for update in updates["result"]:
-#         try:
-#             text = update["message"]["text"]
-#             chat = update["message"]["chat"]["id"]
-#             items = db.get_items()
-#             if text in items:
-#                 db.delete_item(text)
-#                 items = db.get_items()
-#             else:
-#                 db.add_item(text)
-#                 items = db.get_items()
-#             message = "\n".join(items)
-#             send_message(message, chat)
-#         except KeyError:
-#             pass
 def handle_updates(updates):
     for update in updates["result"]:
         text = update["message"]["text"]
@@ -68,9 +54,6 @@ def handle_updates(updates):
         items = db.get_items(chat)  ##
         if text == "/start":
             send_message("Welcome to DocBot")
-        elif text in items:
-            db.delete_item(text, chat)  ##
-            items = db.get_items(chat)  ##
         else:
             db.add_item(text, chat)  ##
             items = db.get_items(chat)  ##
@@ -95,15 +78,6 @@ def send_message(text, chat_id):
 # text, chat = get_last_chat_id_and_text(get_updates())
 # send_message(text, chat)
 
-# def main():
-#     last_textchat = (None, None)
-#     while True:
-#         text, chat = get_last_chat_id_and_text(get_updates())
-#         if (text, chat) != last_textchat:
-#             send_message(text, chat)
-#             last_textchat = (text, chat)
-#         time.sleep(0.5)
-
 def main():
     db.setup()
     last_update_id = None
@@ -113,6 +87,7 @@ def main():
         if len(updates["result"]) > 0:
             last_update_id = get_last_update_id(updates) + 1
             handle_updates(updates)
+        # if(datetime.datetime.now.year == )
         time.sleep(0.5)
 
 if __name__ == '__main__':
