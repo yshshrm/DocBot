@@ -55,7 +55,7 @@ def handle_updates(updates):
         if text == "/start":
             send_message("Welcome to DocBot")
         else:
-            db.add_item(text, chat)  ##
+            db.add_item(text, chat)  
             items = db.get_items(chat)  ##
             message = "\n".join(items)
             send_message(message, chat)
@@ -82,6 +82,7 @@ def main():
     db.setup()
     last_update_id = None
     while True:
+        
         print("getting updates")
         updates = get_updates(last_update_id)
         if len(updates["result"]) > 0:

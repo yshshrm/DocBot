@@ -6,7 +6,7 @@ const sqlite3 = require('sqlite3').verbose();
 
 
 let db = new sqlite3.Database('./myinfo.sqlite');
-db.run('CREATE TABLE IF NOT EXISTS items (description text, owner text, hourTake text, minTake text)');
+db.run('CREATE TABLE IF NOT EXISTS items (name text, userid integer, medicine text, disease text, remarks text, hourTake integer, minTake integer)');
 
 var server = http.createServer(function (req, res) {
     if (req.method.toLowerCase() == 'get') {
@@ -53,8 +53,7 @@ function processFormFieldsIndividual(req, res) {
     var fields = [];
     var form = new formidable.IncomingForm();
     form.on('field', function (field, value) {
-        console.log(field);
-        console.log(value);
+        console.log(field, " ", value);
         fields[field] = value;
     });
 
@@ -66,14 +65,10 @@ function processFormFieldsIndividual(req, res) {
         res.end(util.inspect({
             fields: fields
         }));
-    //console.log(fields);
-    //console.log(fields.hour);
-    //console.log(fields.minute);
-    //db.run("INSERT into items(description,owner,hourTake, minTake) VALUES (fields.description,fields.userid,fields.hour, fields.minute)");
-	db.run("INSERT INTO items (description,owner,hourTake, minTake) VALUES (?,?,?,?)", [fields["description"], fields["userid"], fields["hour"], fields["minute"]]);
+
+	db.run("INSERT INTO items (name, userid , medicine, disease, remarks, hourTake, minTake) VALUES (?,?,?,?,?,?,?)", [fields["name"], fields["userid"], fields["medicine"], fields["disease"], fields["remarks"], fields["hour"], fields["minute"]]);
 });
     form.parse(req);
-
 }
 
 server.listen(1185);

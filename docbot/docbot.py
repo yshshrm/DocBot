@@ -62,7 +62,8 @@ def get_last_chat_id_and_text(updates):
 
 ###############################
 
-def send_message(text, chat_id):
+def send_message(medicine, disease, remarks, chat_id):
+    text ="You need to take " +  medicine + " for " + disease + ". Other remarks: " + remarks
     url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
     get_url(url)
 
@@ -71,12 +72,17 @@ db.setup()
 
 def main():
     while True:
-        # items = db.send_my_message(now.hour, now.minute)
+        items = db.auto_message(now.hour, now.minute)
         items = db.get_all()
         print("getting updates")
         for item in items:
-            send_message(item, CHAT_ID)
-        time.sleep(1)
+            send_message(item[0], item[1], item[2], item[3])
+        # send_message("paracetamol", "fever", "sirf aadhi peeli goli khaana", CHAT_ID)
+
+        # testcase = db.get_all()
+        # for test in testcase:
+        #     send_message(test[0], test[1], test[2], CHAT_ID)
+        time.sleep(60)
 
 if __name__ == '__main__':
     main()
