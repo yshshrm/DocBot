@@ -12,3 +12,4 @@ With the data stored, we can easily get to know effectiveness of a medicine (by 
 * Telegram API
 * SQLite (for storage)
 * nodejs (for building the database)
+* d3.js (for visualizations)
