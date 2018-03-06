@@ -1,4 +1,4 @@
-# NagarPalika-DataHack
+# DocBot
 
 ### Application
 A chatbot for Telegram to improve the User Experience for patients.
